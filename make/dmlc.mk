@@ -6,6 +6,10 @@
 #  Add DMLC_CFLAGS to the compile flags
 #  Add DMLC_LDFLAGS to the linker flags
 #----------------------------------------------------------------------------------------
+# Modify system dependent parameters for each environment:
+JAVA_HOME = /usr/lib/jvm/java-7-openjdk-amd64
+HADOOP_HOME = /usr/local/hadoop/hadoop-2.6.0
+
 ifndef LIBJVM
 	LIBJVM=$(JAVA_HOME)/jre/lib/amd64/server
 endif
