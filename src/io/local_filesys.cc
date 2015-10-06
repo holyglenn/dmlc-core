@@ -55,6 +55,38 @@ class FileStream : public SeekStream {
   bool use_stdio_;
 };
 
+int LocalFileSystem::CreateDirectory(const URI &path) {
+  struct stat st;
+  int status = 0;
+  if (stat(path.name.c_str(), &st) != 0)
+  {
+  	//Directory does not exist. EEXIST for race condition.	
+  	if (mkdir(path.name.c_str(), DEFFILEMODE) != 0 && errno != EEXIST) { //0666 hard coded.
+	  status = -1;
+	  int errsv = errno;
+	  LOG(FATAL) << "LocalFileSystem.CreateDirectory " << path.name
+	               << " Error, Race Condition: " << strerror(errsv);
+  	}
+  }
+  else if (!S_ISDIR(st.st_mode))
+  {
+  	errno = ENOTDIR;
+	status = -1;
+    int errsv = errno;
+    LOG(FATAL) << "LocalFileSystem.CreateDirectory " << path.name
+               << " Error, Not a Director: " << strerror(errsv);
+  }
+  return (status);
+}
+
+int LocalFileSystem::DeleteDirectory(const URI &path) {
+  std::string command = "rm -rf ";
+  std::string dir = path.name;
+  command += dir;
+  return system( command.c_str() );
+}
+
+
 FileInfo LocalFileSystem::GetPathInfo(const URI &path) {
   struct stat sb;
   if (stat(path.name.c_str(), &sb) == -1) {

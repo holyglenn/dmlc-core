@@ -26,6 +26,18 @@ class HDFSFileSystem : public FileSystem {
    * \return the information about the file
    */
   virtual FileInfo GetPathInfo(const URI &path);
+  /*
+   * \brief create directory using the current path
+   * \param path the path to the directory
+   * \return true if succeeded; false if existed or something.
+   */
+  virtual int CreateDirectory(const URI &path);
+  /*
+   * \brief remove directory and its recursive contents using the current path
+   * \param path the path to the directory
+   * \return true if succeeded; false if existed or something.
+   */
+   virtual int DeleteDirectory(const URI &path);
   /*!
    * \brief list files in a directory
    * \param path to the file

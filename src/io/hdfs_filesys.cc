@@ -137,6 +137,17 @@ FileInfo HDFSFileSystem::GetPathInfo(const URI &path) {
   return ret;
 }
 
+int HDFSFileSystem::CreateDirectory(const URI &path) {
+  CHECK(path.protocol == "hdfs://") << "HDFSFileSystem only works with hdfs";
+  int ret = hdfsCreateDirectory(fs_, path.str().c_str());
+  return ret;
+}
+int HDFSFileSystem::DeleteDirectory(const URI & path) {
+  CHECK(path.protocol == "hdfs://") << "HDFSFileSystem only works with hdfs";
+  int ret = hdfsDelete(fs_,path.str().c_str(), true);
+  return ret;
+}
+
 void HDFSFileSystem::ListDirectory(const URI &path, std::vector<FileInfo> *out_list) {
   int nentry;
   hdfsFileInfo *files = hdfsListDirectory(fs_, path.str().c_str(), &nentry);

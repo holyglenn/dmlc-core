@@ -11,6 +11,8 @@ int main(int argc, char *argv[]) {
     printf("\tcat file\n");
     printf("\tls path\n");
     printf("\tcp file1 file2\n");
+	printf("\tmkdir dir\n");
+	printf("\trmdir dir\n");
     return 0;
   }
   using namespace dmlc;
@@ -52,6 +54,20 @@ int main(int argc, char *argv[]) {
     delete src; delete dst;
     printf("copy %s to %s finished\n", argv[2], argv[3]);
     return 0;
+  }
+  if (!strcmp(argv[1], "mkdir")) {
+  	CHECK(argc >= 3) << "mkdir requires dest folder";
+	URI path(argv[2]);
+	FileSystem *fs = FileSystem::GetInstance(path.protocol);
+	int ret = fs->CreateDirectory(path);
+	return ret;
+  }
+  if (!strcmp(argv[1], "rmdir")) {
+  	CHECK(argc >= 3) << "rmdir requires dest folder";
+	URI path(argv[2]);
+	FileSystem *fs = FileSystem::GetInstance(path.protocol);
+	int ret = fs->DeleteDirectory(path);
+	return ret;
   }
   LOG(FATAL) << "unknown command " << argv[1];
   return 0;
