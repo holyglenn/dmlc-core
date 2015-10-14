@@ -67,8 +67,8 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
   	  LOG(FATAL) << "LocalFileSystem.CreateDirectory " << path.name
   	               << " Error, Race Condition: " << strerror(errsv);
   	}
-    LOG(INFO) << "LocalFileSystem.CreateDirectory " << path.name
-              << "Succeeded.";
+    LOG(INFO) << "CreateDirectory " << path.name
+              << " Succeeded.";
   }
   else if (!S_ISDIR(st.st_mode))
   {
@@ -76,7 +76,7 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
 	  status = -1;
     int errsv = errno;
     LOG(FATAL) << "LocalFileSystem.CreateDirectory " << path.name
-               << " Error, Not a Director: " << strerror(errsv);
+               << " Error, Not a Directory: " << strerror(errsv);
   }
   return (status);
 }
