@@ -93,8 +93,8 @@ FileInfo LocalFileSystem::GetPathInfo(const URI &path) {
   struct stat sb;
   if (stat(path.name.c_str(), &sb) == -1) {
     int errsv = errno;
-    LOG(INFO) << "LocalFileSystem.GetPathInfo " << path.name
-               << ":" << strerror(errsv);
+//    LOG(INFO) << "LocalFileSystem.GetPathInfo " << path.name
+//               << ":" << strerror(errsv);
     FileInfo ret;
     ret.path = path;
     ret.size = 0;
