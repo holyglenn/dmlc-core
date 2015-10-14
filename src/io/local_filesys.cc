@@ -62,11 +62,13 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
   {
   	//Directory does not exist. EEXIST for race condition.	
   	if (mkdir(path.name.c_str(), DEFFILEMODE) != 0 && errno != EEXIST) { //0666 hard coded.
-	  status = -1;
-	  int errsv = errno;
-	  LOG(FATAL) << "LocalFileSystem.CreateDirectory " << path.name
-	               << " Error, Race Condition: " << strerror(errsv);
+  	  status = -1;
+  	  int errsv = errno;
+  	  LOG(FATAL) << "LocalFileSystem.CreateDirectory " << path.name
+  	               << " Error, Race Condition: " << strerror(errsv);
   	}
+    LOG(INFO) << "LocalFileSystem.CreateDirectory " << path.name
+              << "Succeeded.";
   }
   else if (!S_ISDIR(st.st_mode))
   {
