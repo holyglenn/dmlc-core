@@ -56,7 +56,9 @@ enum FileType {
   /*! \brief the file is file */
   kFile,
   /*! \brief the file is directory */
-  kDirectory
+  kDirectory,
+  /*! \brief the file does not exist */
+  kNonExist
 };
 
 /*! \brief use to store file information */
