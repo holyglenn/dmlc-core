@@ -73,7 +73,7 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
   else if (!S_ISDIR(st.st_mode))
   {
   	errno = ENOTDIR;
-	status = -1;
+	  status = -1;
     int errsv = errno;
     LOG(FATAL) << "LocalFileSystem.CreateDirectory " << path.name
                << " Error, Not a Director: " << strerror(errsv);
@@ -98,6 +98,7 @@ FileInfo LocalFileSystem::GetPathInfo(const URI &path) {
     FileInfo ret;
     ret.path = path;
     ret.size = 0;
+    ret.type = kNonExist;
     return ret;
   }
   FileInfo ret;
