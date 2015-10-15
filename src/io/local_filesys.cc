@@ -69,6 +69,7 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
   	}
     LOG(INFO) << "CreateDirectory " << path.name
               << " Succeeded.";
+    chmod(path.name.c_str(), DEFFILEMODE);
   }
   else if (!S_ISDIR(st.st_mode))
   {
