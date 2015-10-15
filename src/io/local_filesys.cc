@@ -71,7 +71,7 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
   	  LOG(FATAL) << "LocalFileSystem.CreateDirectory " << path.name
   	               << " Error, Race Condition: " << strerror(errsv);
   	}
-    else if (erron == EEXIST)
+    else if (errno == EEXIST)
     {
       int errsv = errno;
       LOG(FATAL) << "LocalFileSystem.CreateDirectory " << path.name
