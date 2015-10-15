@@ -58,7 +58,7 @@ class FileStream : public SeekStream {
 int LocalFileSystem::CreateDirectory(const URI &path) {
   struct stat st;
   int status = 0;
-  umask(S_IWGRP | S_IWOTH);
+  //umask(S_IWGRP | S_IWOTH);
   if (stat(path.name.c_str(), &st) != 0)
   {
     int err = errno;
