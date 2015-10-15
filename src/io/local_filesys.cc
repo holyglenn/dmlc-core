@@ -58,7 +58,7 @@ class FileStream : public SeekStream {
 int LocalFileSystem::CreateDirectory(const URI &path) {
   struct stat st;
   int status = 0;
-  //umask(ACCESSPERMS);
+  umask(S_IWGRP | S_IWOTH);
   if (stat(path.name.c_str(), &st) != 0)
   {
     int err = errno;
@@ -73,7 +73,7 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
   	}
     LOG(INFO) << "CreateDirectory " << path.name
               << " Succeeded.";
-    chmod(path.name.c_str(), DEFFILEMODE);
+    //chmod(path.name.c_str(), DEFFILEMODE);
   }
   else if (!S_ISDIR(st.st_mode))
   {
