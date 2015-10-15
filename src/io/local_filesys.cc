@@ -58,6 +58,7 @@ class FileStream : public SeekStream {
 int LocalFileSystem::CreateDirectory(const URI &path) {
   struct stat st;
   int status = 0;
+  umask(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
   if (stat(path.name.c_str(), &st) != 0)
   {
   	//Directory does not exist. EEXIST for race condition.	
