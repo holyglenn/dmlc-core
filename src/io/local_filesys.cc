@@ -58,9 +58,12 @@ class FileStream : public SeekStream {
 int LocalFileSystem::CreateDirectory(const URI &path) {
   struct stat st;
   int status = 0;
-  umask(ACCESSPERMS);
+  //umask(ACCESSPERMS);
   if (stat(path.name.c_str(), &st) != 0)
   {
+    int err = errno;
+    LOG(INFO) << "LocalFileSystem.CreateDirectory " << path.name
+              << "Stat says: " << strerror(err);
   	//Directory does not exist. EEXIST for race condition.	
   	if (mkdir(path.name.c_str(), ACCESSPERMS) != 0 && errno != EEXIST) { //0666 hard coded.
   	  status = -1;
@@ -70,7 +73,7 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
   	}
     LOG(INFO) << "CreateDirectory " << path.name
               << " Succeeded.";
-    chmod(path.name.c_str(), ACCESSPERMS);
+    chmod(path.name.c_str(), DEFFILEMODE);
   }
   else if (!S_ISDIR(st.st_mode))
   {
