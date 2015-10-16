@@ -62,24 +62,24 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
   if (stat(path.name.c_str(), &st) != 0)
   {
     int err = errno;
-    // LOG(INFO) << "LocalFileSystem.CreateDirectory " << path.name
-    //          << "Stat says: " << strerror(err);
+    LOG(INFO) << "LocalFileSystem.CreateDirectory " 
+              << "Stat says: " << path.name << strerror(err);
   	//Directory does not exist. EEXIST for race condition.	
-  	if (mkdir(path.name.c_str(), DEFFILEMODE) != 0 && errno != EEXIST) { //0666 hard coded.
+  	if (mkdir(path.name.c_str(), ACCESSPERMS) != 0 && errno != EEXIST) { //0666 hard coded.
   	  status = -1;
   	  int errsv = errno;
-  	  LOG(FATAL) << "LocalFileSystem.CreateDirectory " << path.name
-  	               << " Error, Race Condition: " << strerror(errsv);
+  	  LOG(FATAL) << "LocalFileSystem.CreateDirectory " 
+  	               << " Error, Race Condition: " << path.name << strerror(errsv);
   	}
     else if (errno == EEXIST)
     {
       int errsv = errno;
-      LOG(FATAL) << "LocalFileSystem.CreateDirectory " << path.name
-                    << " Error, the thing is therr: " << strerror(errsv);
+      LOG(FATAL) << "LocalFileSystem.CreateDirectory " 
+                    << " Error, the thing is therr: " << path.name << strerror(errsv);
     }
     else {
-      LOG(INFO) << "CreateDirectory " << path.name
-              << " Succeeded.";
+      LOG(INFO) << "CreateDirectory " 
+              << " Succeeded." << path.name; 
       //chmod(path.name.c_str(), DEFFILEMODE);
     }
   }
