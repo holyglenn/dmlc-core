@@ -62,8 +62,8 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
   if (stat(path.name.c_str(), &st) != 0)
   {
     int err = errno;
-    LOG(INFO) << "LocalFileSystem.CreateDirectory " << path.name
-              << "Stat says: " << strerror(err);
+    // LOG(INFO) << "LocalFileSystem.CreateDirectory " << path.name
+    //          << "Stat says: " << strerror(err);
   	//Directory does not exist. EEXIST for race condition.	
   	if (mkdir(path.name.c_str(), DEFFILEMODE) != 0 && errno != EEXIST) { //0666 hard coded.
   	  status = -1;
