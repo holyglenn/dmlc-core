@@ -63,19 +63,20 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
   {
     int err = errno;
     LOG(INFO) << "LocalFileSystem.CreateDirectory " 
-              << "Stat says: " << path.name << strerror(err);
+              << "Stat says: " << path.name << " " << strerror(err);
   	//Directory does not exist. EEXIST for race condition.	
+    //NOTE(weiren): mkdir() is not recursive. Make sure you have the folders on parent path.
   	if (mkdir(path.name.c_str(), ACCESSPERMS) != 0 && errno != EEXIST) { //0666 hard coded.
   	  status = -1;
   	  int errsv = errno;
   	  LOG(FATAL) << "LocalFileSystem.CreateDirectory " 
-  	               << " Error, Race Condition: " << path.name << strerror(errsv);
+  	               << " Error, Race Condition: " << path.name << " " << strerror(errsv);
   	}
     else if (errno == EEXIST)
     {
       int errsv = errno;
       LOG(FATAL) << "LocalFileSystem.CreateDirectory " 
-                    << " Error, the thing is therr: " << path.name << strerror(errsv);
+                    << " Error, the thing is therr: " << path.name << " " << strerror(errsv);
     }
     else {
       LOG(INFO) << "CreateDirectory " 
