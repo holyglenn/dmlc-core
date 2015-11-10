@@ -132,6 +132,13 @@ FileInfo HDFSFileSystem::GetPathInfo(const URI &path) {
   CHECK(path.protocol == "hdfs://") << "HDFSFileSystem only works with hdfs";
   hdfsFileInfo *info = hdfsGetPathInfo(fs_, path.str().c_str());
   //CHECK(info != NULL) << "Path do not exist:" << path.str();
+  if(info == NULL) {
+    FileInfo ret;
+    ret.path = path;
+    ret.size = 0;
+    ret.type = kNonExist;
+    return ret;
+  }
   FileInfo ret = ConvertPathInfo(path, *info);
   hdfsFreeFileInfo(info, 1);
   return ret;
