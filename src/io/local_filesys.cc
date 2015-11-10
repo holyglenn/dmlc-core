@@ -70,7 +70,7 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
   	  status = -1;
   	  int errsv = errno;
   	  LOG(FATAL) << "LocalFileSystem.CreateDirectory " 
-  	               << " Error, Race Condition: " << path.name << " " << strerror(errsv);
+  	               << " Error,  " << path.name << " " << strerror(errsv);
   	}
     else if (errno == EEXIST)
     {
@@ -79,8 +79,7 @@ int LocalFileSystem::CreateDirectory(const URI &path) {
                     << " Error, the thing is therr: " << path.name << " " << strerror(errsv);
     }
     else {
-      LOG(INFO) << "CreateDirectory " 
-              << " Succeeded." << path.name; 
+      LOG(INFO) << "CreateDirectory Succeeded. " << path.name; 
       //chmod(path.name.c_str(), DEFFILEMODE);
     }
   }

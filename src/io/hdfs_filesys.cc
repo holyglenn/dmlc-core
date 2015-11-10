@@ -131,7 +131,7 @@ inline FileInfo ConvertPathInfo(const URI &path, const hdfsFileInfo &info) {
 FileInfo HDFSFileSystem::GetPathInfo(const URI &path) {
   CHECK(path.protocol == "hdfs://") << "HDFSFileSystem only works with hdfs";
   hdfsFileInfo *info = hdfsGetPathInfo(fs_, path.str().c_str());
-  CHECK(info != NULL) << "Path do not exist:" << path.str();
+  //CHECK(info != NULL) << "Path do not exist:" << path.str();
   FileInfo ret = ConvertPathInfo(path, *info);
   hdfsFreeFileInfo(info, 1);
   return ret;
@@ -140,11 +140,21 @@ FileInfo HDFSFileSystem::GetPathInfo(const URI &path) {
 int HDFSFileSystem::CreateDirectory(const URI &path) {
   CHECK(path.protocol == "hdfs://") << "HDFSFileSystem only works with hdfs";
   int ret = hdfsCreateDirectory(fs_, path.str().c_str());
+  if (ret == 0) {
+    LOG(INFO) << "HDFS CreateDirectory Succeeded. " << path.str();
+  } else {
+    LOG(INFO) << "HDFS CreateDirectory Failed. " << path.str();
+  }
   return ret;
 }
 int HDFSFileSystem::DeleteDirectory(const URI & path) {
   CHECK(path.protocol == "hdfs://") << "HDFSFileSystem only works with hdfs";
   int ret = hdfsDelete(fs_,path.str().c_str(), true);
+  if (ret == 0) {
+    LOG(INFO) << "hdfsDelete Succeeded. " << path.str();
+  } else {
+    LOG(INFO) << "hdfsDelete Failed. " << path.str();
+  }
   return ret;
 }
 
