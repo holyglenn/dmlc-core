@@ -186,7 +186,7 @@ SeekStream *HDFSFileSystem::Open(const URI &path,
   } else if (!strcmp(mode, "w"))  {
     flag = O_WRONLY;
   } else if (!strcmp(mode, "a"))  {
-    flag = O_WRONLY|O_APPEND;
+    flag = O_WRONLY|O_APPEND|O_CREAT;
   } else {
     LOG(FATAL) << "HDFSStream: unknown flag %s" << mode;
   }
