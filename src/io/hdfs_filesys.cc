@@ -186,7 +186,13 @@ SeekStream *HDFSFileSystem::Open(const URI &path,
   } else if (!strcmp(mode, "w"))  {
     flag = O_WRONLY;
   } else if (!strcmp(mode, "a"))  {
-    flag = O_WRONLY|O_APPEND|O_CREAT;
+    FileInfo info = GetPathInfo(path);
+    if (info.type == kNonExist) {
+      flag = O_WRONLY;
+      hdfsFile fp_ = hdfsOpenFile(fs_, path.str().c_str(), flag, 0, 0, 0);
+      CHECK(hdfsCloseFile(fs_, fp_) != -1) << "Close Created to-Append File failed";
+    }
+    flag = O_WRONLY|O_APPEND; // Append to an existing file in the namespace.
   } else {
     LOG(FATAL) << "HDFSStream: unknown flag %s" << mode;
   }
